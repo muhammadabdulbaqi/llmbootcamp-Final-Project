@@ -6,6 +6,10 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import AgentExecutor, create_tool_calling_agent, Tool, initialize_agent
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 from langchain.prompts import ChatPromptTemplate
+from langchain_community.tools import WikipediaQueryRun
+from langchain_community.utilities import WikipediaAPIWrapper
+from langchain_experimental.tools.python.tool import PythonREPLTool
+from langchain_community.utilities import ArxivAPIWrapper
 
 
 
@@ -23,14 +27,31 @@ class ChatbotTools:
     def setup_agent(self):
         # Define tool
         ddg_search = DuckDuckGoSearchRun()
+        wiki_agent = WikipediaQueryRun(api_wrapper = WikipediaAPIWrapper())
+        python_repl = PythonREPLTool() 
+        arxiv = ArxivAPIWrapper() 
         tools = [
             Tool(
                 name="DuckDuckGoSearch",
                 func=ddg_search.run,
                 description="Useful for when you need to answer questions about current events. You should ask targeted questions",
-            )
-        ]
-
+            ),
+            Tool(
+                name="Wikipedia", 
+                func=wiki_agent.run,
+                description="Useful for when you need to query about a specific topic, person, or event. You should ask targeted questions",
+            ),
+            Tool(
+                name="Python REPL", 
+                func=python_repl.run,
+                description="A Python shell. Use this to execute python commands. Input should be a valid python command. If you expect output it should be printed out.",
+            ),
+            Tool(
+                name="Arxiv", 
+                func=arxiv.run,
+                description="Useful for when you need to answer questions about research papers, scientific articles, and preprints etc",
+           )    ]
+ 
         # Setup LLM and Agent
         llm = ChatOpenAI(model_name=self.openai_model, streaming=True)
         agent = initialize_agent(
@@ -40,8 +61,9 @@ class ChatbotTools:
             handle_parsing_errors=True,
             verbose=True
         )
+ 
+        return agent 
 
-        return agent
 
     @utils.enable_chat_history
     def main(self):
