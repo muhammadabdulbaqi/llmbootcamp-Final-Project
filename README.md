@@ -1,5 +1,7 @@
 # LangChain-Enhanced Chatbot Project
 
+**[🚀 Live Deployment on Streamlit Cloud](https://llmbootcamp-final-project-ktjafqkbpbgvjyaklvrpdg.streamlit.app/)**
+
 This project leverages **LangChain** to implement advanced chatbot features across three main applications: Basic Chatbot, Chatbot Agent, and Chat with Your Data.
 
 ## Key Features
@@ -25,9 +27,6 @@ This project leverages **LangChain** to implement advanced chatbot features acro
 
 - **Version Control & Collaboration**  
   Managed through **GitHub** for seamless code updates and collaboration.
-
-- **Deployment on Streamlit Cloud**  
-  Deployed on **Streamlit Cloud** for easy and accessible AI capabilities.
 
 ---
 
